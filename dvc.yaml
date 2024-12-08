@@ -1,0 +1,29 @@
+stages:
+  data_collection:
+    cmd: python src/data_collection.py
+    deps:
+    - src/data_collection.py
+    outs:
+    - data/raw
+  pre_processing:
+    cmd: python src/data_preparation.py
+    deps:
+    - data/raw
+    - src/data_preparation.py
+    outs:
+    - data/processed
+  model_building:
+    cmd: python src/model_building.py
+    deps:
+    - data/processed
+    - src/model_building.py
+    outs:
+    - model.pkl
+  model_evaluation:
+    cmd: python src/model_eval.py
+    deps:
+    - data/processed
+    - model.pkl
+    - src/model_eval.py
+    metrics:
+    - metric.json
